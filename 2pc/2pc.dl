@@ -1,0 +1,43 @@
+.type Node <: symbol
+.type Vote <: symbol
+.type State <: symbol
+
+.decl Peers(x:Node, y:Node)
+Peers("coordinator", "a").
+Peers("coordinator", "b").
+Peers("coordinator", "c").
+
+.decl vote(x:Node, tid:number, y:Node, v: Vote)
+vote("coordinator", 1, "a", "Yes").
+vote("coordinator", 1, "b", "Yes").
+vote("coordinator", 1, "c", "Yes").
+vote("coordinator", 2, "a", "Yes").
+vote("coordinator", 2, "b", "No").
+
+.decl peer_cnt(x:Node, c:number)
+peer_cnt("coordinator", c) :- c = count: Peers("coordinator", _).
+
+.output peer_cnt
+
+.decl yes_cnt(x:Node, tid:number, c:number)
+yes_cnt("coordinator", txnid, c) :- vote("coordinator", txnid, _, "Yes"),
+                      c = count : vote("coordinator", txnid, _, "Yes").
+
+.output yes_cnt
+
+.decl transaction(x: Node, tid:number, s:State)
+transaction("coordinator", 1, "prepare").
+transaction("coordinator", 2, "prepare").
+
+.decl new_transaction(x: Node, tid:number, s:State)
+// abort if one of the member votes "No"
+new_transaction("coordinator", tid, "abort") :-
+     transaction("coordinator", tid, "prepare"),
+     vote("coordinator", tid, _, "No").
+
+new_transaction("coordinator", tid, "commit") :-
+     transaction("coordinator", tid, "prepare"),
+     peer_cnt("coordinator", c),
+     yes_cnt("coordinator", tid, c).
+
+.output new_transaction
