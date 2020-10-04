@@ -28,6 +28,13 @@ yes_cnt("coordinator", txnid, c) :- vote("coordinator", txnid, _, "Yes"),
 .decl transaction(x: Node, tid:number, s:State)
 transaction("coordinator", 1, "prepare").
 transaction("coordinator", 2, "prepare").
+transaction("coordinator", 3, "prepare").
+
+
+.decl tick(x: Node, tid: number, c: number)
+tick("coordinator", 1, 4).
+tick("coordinator", 2, 3).
+tick("coordinator", 3, 11).
 
 .decl new_transaction(x: Node, tid:number, s:State)
 // abort if one of the member votes "No"
@@ -40,4 +47,22 @@ new_transaction("coordinator", tid, "commit") :-
      peer_cnt("coordinator", c),
      yes_cnt("coordinator", tid, c).
 
+// time-out based abortion
+new_transaction("coordinator", tid, "abort") :- 
+    transaction("coordinator", tid, "prepare"),
+    tick("coordinator", tid, c), c > 10.
+    
 .output new_transaction
+
+// manage timer
+.decl ticker()
+.decl new_tick(x: Node, tid: number, c: number)
+
+ticker().
+new_tick("coordinator", tid, 0) :- ticker(), 
+    transaction("coordinator", tid, "prepare"),
+    !tick("coordinator", tid, _).
+
+new_tick("coordinator", tid, c+1) :- ticker(), tick("coordinator", tid, c).
+
+.output new_tick

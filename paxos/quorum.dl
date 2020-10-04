@@ -1,0 +1,32 @@
+.type Node <: symbol
+.type Vote <: symbol
+.type State <: symbol
+.type View <: number
+
+.decl parliament(x: Node, y:Node)
+.decl agn_cnt(x:Node, c:number)
+
+.decl promise(x: Node, v: View, y:Node)
+.decl promise_cnt(x:Node, v:View, c:number)
+
+.decl quorum(x: Node, v:View)
+
+parliament("master", "a").
+parliament("master", "b").
+parliament("master", "c").
+
+promise("master", 1, "a").
+promise("master", 1, "b").
+promise("master", 2, "a").
+
+agn_cnt("master", c) :- c = count: parliament("master", _).
+.output agn_cnt
+
+promise_cnt("master", view, c) :- promise("master", view, _),
+                  c = count : promise("master", view, _).
+.output promise_cnt
+
+quorum("master", view) :- agn_cnt("master", ac),
+                        promise_cnt("master", view, pc),
+                        pc > ac / 2.
+.output quorum
