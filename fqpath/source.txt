@@ -1,0 +1,2 @@
+Alvaro, Peter, et al. "Boom analytics: exploring data-centric, declarative programming for the cloud." Proceedings of the 5th European conference on Computer systems. 2010.
+
