@@ -1,0 +1,17 @@
+// .type Path <: symbol
+.type Bool <: symbol
+
+.functor path_join(symbol, symbol):symbol
+
+.decl file(file: number, parent: number, name: symbol, isDir: Bool)
+file(1,0,"/","True").
+file(34,1,"file1","False").
+
+.decl fqpath(name: symbol, fileId: number)
+fqpath("/", fileId) :- file(fileId, 0, "/", "True").
+fqpath(path, fileId) :- file(fileId, pid, fname, _),
+                    fqpath(ppath, pid),
+                    path = @path_join(ppath, fname).
+
+.output fqpath
+
