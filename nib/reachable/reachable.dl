@@ -1,0 +1,13 @@
+.type Node <: symbol
+
+.decl link(x: Node,y:Node)
+link("a", "b").
+link("b", "c").
+link("c", "d").
+
+.decl reachable(x: Node, y: Node)
+
+reachable(x,y) :- link(x,y).
+reachable(x,y) :- reachable(x,z), reachable(z,y).
+
+.output reachable
