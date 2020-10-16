@@ -1,4 +1,4 @@
-# autodsl-bench
+# Autodsl-bench
 
 This is a collection of declarative programs in systems and networking. 
 
