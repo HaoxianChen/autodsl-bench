@@ -4,10 +4,10 @@
 .type InstanceId <: number
 
 .decl packet(x:Switch, y:Port, z:Mac, m:Mac, i:InstanceId)
-packet(1,1,1,2,1).
+.input packet
 
 .decl map(x:Switch, y:Mac, m:Port, i:InstanceId)
-map(1,2,2,1).
+.input map
 
 .decl new_map(x:Switch, y:Mac, z:Port, i:InstanceId)
 new_map(s1, m1, p1,i) :- packet(s1,p1,m1,_,i).
