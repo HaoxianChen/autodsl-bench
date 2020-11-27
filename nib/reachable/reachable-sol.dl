@@ -1,9 +1,7 @@
 .type Node <: symbol
 
 .decl link(x: Node,y:Node)
-link("a", "b").
-link("b", "c").
-link("c", "d").
+.input link
 
 .decl reachable(x: Node, y: Node)
 
