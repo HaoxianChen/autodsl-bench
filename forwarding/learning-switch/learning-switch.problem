@@ -1,3 +1,5 @@
+.domain SDN
+
 .type Switch <: number
 .type Port <: number
 .type Mac <: number

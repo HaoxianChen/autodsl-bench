@@ -1,3 +1,5 @@
+.domain SDN
+
 .type Host <: symbol
 .type Switch <: symbol
 .type Port <: number

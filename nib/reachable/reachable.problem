@@ -1,3 +1,5 @@
+.domain NIB
+
 .type Node <: symbol
 
 .decl *link(x: Node,y:Node)

@@ -18,8 +18,8 @@ minCost(x,y,mc) :- Path(x,y,_,_),  mc = min c : Path(x,y,_,c).
 
 .output minCost
 
-.decl bestPath(x: Node, y:Node, path: NodeList)
+.decl bestPath(x: Node, y:Node, path: NodeList, cost: number)
 // bestPath(x,y,p) :- Path(x,y,p,c), minCost(x,y,c).
-bestPath(x,y,p) :- Path(x,y,p,mc), mc = min c : Path(x,y,_,c).
+bestPath(x,y,p,mc) :- Path(x,y,p,mc), mc = min c : Path(x,y,_,c).
 
 .output bestPath
