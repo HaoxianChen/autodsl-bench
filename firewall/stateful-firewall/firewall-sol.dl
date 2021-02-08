@@ -6,16 +6,8 @@
 .decl trusted(s: Switch, h: Host, id: InstanceId)
 .decl packet(s: Switch, p: Port, src: Host, dst: Host, id: InstanceId)
 
-packet("s1", 1, "h1", "h2", 1).
-
-packet("s1", 2, "h1", "h2", 2).
-trusted("s1", "h1", 2).
-
-packet("s1", 1, "h1", "h2", 3).
-trusted("s1", "h2", 3).
-
-packet("s1", 2, "h1", "h2", 4).
-trusted("s2", "h1", 4).
+.input packet
+.input trusted
 
 .decl new_trusted(s: Switch, h: Host, id: InstanceId)
 new_trusted(s1, h2, id) :- packet(s1, 1, _, h2, id).
