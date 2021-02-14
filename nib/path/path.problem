@@ -1,0 +1,9 @@
+.domain NIB
+
+.type Node <: symbol
+.type NodeList  <: symbol
+
+.decl *Link(x: Node, y: Node)
+
+.decl Path(x: Node, y: Node, path: NodeList)
+

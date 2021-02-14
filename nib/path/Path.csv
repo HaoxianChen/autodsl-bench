@@ -1,4 +1,7 @@
-a	b	ab
-a	c	ac
-a	c	abc
-b	c	bc
+"a"	"b"	"a""b"
+"a"	"c"	"a""c"
+"a"	"c"	"a""b""c"
+"b"	"a"	"b""c""a"
+"b"	"c"	"b""c"
+"c"	"a"	"c""a"
+"c"	"b"	"c""a""b"
