@@ -1,0 +1,8 @@
+.domain NIB
+
+.type Cost <: number
+.type Node <: symbol
+.type NodeList  <: symbol
+
+.decl *Link(x: Node, y: Node, c: Cost)
+.decl Path(x: Node, y: Node, path: NodeList, c: Cost)
