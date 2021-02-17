@@ -1,0 +1,8 @@
+.domain routing
+
+.type Node <: symbol
+.type NodeList  <: symbol
+.type Bw <: number
+
+.decl *Link(x: Node, y: Node, bw: Bw)
+.decl bestPath(x: Node, y:Node, path: NodeList, bw: Bw)
