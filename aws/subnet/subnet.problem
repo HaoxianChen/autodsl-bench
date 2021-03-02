@@ -1,0 +1,13 @@
+.domain NIB
+
+.type Instance <: number
+.type Subnet <: symbol
+.type Tag <: symbol
+
+.decl *hasSubnet(i: Instance, n: Subnet)
+.decl *hasTag(i: Instance, t: Tag)
+.decl *subnet(n: Subnet)
+.decl *tag(t: Tag)
+
+.decl q(i: Instance)
+
