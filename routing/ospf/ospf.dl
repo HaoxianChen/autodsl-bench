@@ -1,0 +1,26 @@
+.type Node <: symbol
+.type Interface <: number
+.type Cost <: number
+.type IP <: number
+.type Network <: symbol
+
+.decl Neighbor(x: Node, xi: Interface, y: Node, yi: Interface)
+.decl InterfaceIP(x: Node, xi: Interface, ip: IP)
+.decl OspfCost(x: Node, xi: Interface, cost: Cost)
+.decl ConnectedRoute(x: Node, net: Network, xi: Interface)
+.decl OspfRoute(x: Node, net: Network, y: Node, yip: IP, cost: Cost)
+
+.input Neighbor
+.input InterfaceIP
+.input OspfCost
+.input ConnectedRoute
+
+OspfRoute(node,network,nextHop, nextHopIp,cost) :-
+  Neighbor(node,nodeInt,nextHop, nextHopInt),
+  InterfaceIP(nextHop, nextHopInt, nextHopIp),
+  ConnectedRoute(nextHop, network, nextHopConnInt),
+  OspfCost(node, nodeInt, nodeIntCost),
+  OspfCost(nextHop, nextHopConnInt, nextHopIntCost),
+  cost = nodeIntCost + nextHopIntCost.
+
+.output OspfRoute
