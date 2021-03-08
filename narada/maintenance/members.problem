@@ -1,0 +1,26 @@
+.domain overlay
+
+.type Node <: symbol
+.type Time <: number
+.type Seq <: number
+.type Alive <: number
+.type InstanceId <: number
+
+// input
+.decl *refreshEvent(x: Node, i: InstanceId)
+.decl *neighborProbe(x: Node, i: InstanceId)
+.decl *time(t: Time, i: InstanceId)
+
+.decl *sequence(x: Node, seq: Seq, i: InstanceId)
+.decl *neighbor(x: Node, y: Node, i: InstanceId)
+.decl *member(myAddr: Node, memberAddr: Node, seq: Seq, t: Time, a: Alive, i: InstanceId)
+
+// transient
+// .decl refreshSeq(x: Node, seq: Seq, i: InstanceId)
+// .decl deadNeighbor(x: Node, y: Node, i: InstanceId)
+
+// output
+.decl neighbor_nxt(x: Node, y: Node, i: InstanceId)
+.decl neighbor_del(x: Node, y: Node, i: InstanceId)
+.decl sequence_nxt(x: Node, seq: Seq, i: InstanceId)
+.decl member_nxt(myAddr: Node, memberAddr: Node, seq: Seq, t: Time, a: Alive, i: InstanceId)

@@ -1,0 +1,64 @@
+.type Node <: symbol
+.type Time <: number
+.type Seq <: number
+.type Alive <: number
+.type InstanceId <: number
+
+// input
+.decl refreshEvent(x: Node, i: InstanceId)
+.decl neighborProbe(x: Node, i: InstanceId)
+.decl time(t: Time, i: InstanceId)
+
+.decl sequence(x: Node, seq: Seq, i: InstanceId)
+.decl neighbor(x: Node, y: Node, i: InstanceId)
+.decl member(myAddr: Node, memberAddr: Node, seq: Seq, t: Time, a: Alive, i: InstanceId)
+
+// transient
+.decl refreshSeq(x: Node, seq: Seq, i: InstanceId)
+.decl deadNeighbor(x: Node, y: Node, i: InstanceId)
+
+// output
+.decl neighbor_nxt(x: Node, y: Node, i: InstanceId)
+.decl neighbor_del(x: Node, y: Node, i: InstanceId)
+.decl sequence_nxt(x: Node, seq: Seq, i: InstanceId)
+.decl member_nxt(myAddr: Node, memberAddr: Node, seq: Seq, t: Time, a: Alive, i: InstanceId)
+
+.input sequence
+.input neighbor
+.input member
+
+.input refreshEvent
+.input time
+.input neighborProbe
+
+// refresh sequence
+refreshSeq(X, NewSeq,i) :- refreshEvent(X,i), sequence(X, Seq,i), NewSeq = Seq+1. 
+sequence_nxt(X, NewSeq,i) :- refreshSeq(X, NewSeq,i).
+
+// maintain members
+
+member_nxt(Y,A,ASeqX,TimeY, AliveX,i) :- refreshSeq(X,_,i),
+  member(X,A,ASeqX,_,AliveX,i), neighbor(X,Y,i), !member(Y,A,_,_,_,i),
+  time(TimeY,i).
+
+member_nxt(Y,A,ASeqX,TimeY, AliveX,i) :- refreshSeq(X,_,i),
+  member(X,A,ASeqX,_,AliveX,i), neighbor(X,Y,i), member(Y,A,ASeqY,_,_,i),
+  ASeqY < ASeqX, time(TimeY,i).
+
+member_nxt(Y,X,S,TimeY, 1,i) :- refreshSeq(X,S,i), neighbor(X,Y,i), time(TimeY,i).
+
+// Update neighbor
+neighbor_nxt(Y,X,i) :- refreshSeq(X,_,i), neighbor(X,Y,i).
+ 
+// deadNeighbor(X,Y,i) :- neighborProbe(X,i), neighbor(X,Y,i), member(X,Y,_,YT,_,i),
+//   time(T,i), T-YT > 20.
+// 
+// neighbor_del(X,Y,i) :- deadNeighbor(X,Y,i).
+
+// member_nxt(X, Neighbor, DeadSeq, T, 0,i) :- deadNeighbor(X,Neighbor,i), 
+//   member(X,Neighbor, S, _, _,i),  DeadSeq = S+1, time(T,i).
+
+.output sequence_nxt
+.output member_nxt
+.output neighbor_nxt
+.output neighbor_del
