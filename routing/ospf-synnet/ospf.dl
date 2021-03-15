@@ -1,0 +1,26 @@
+.type Node <: symbol
+.type Interface <: number
+.type Cost <: number
+.type IP <: number
+.type Network <: symbol
+
+.decl Neighbor(x: Node, y: Node, cost: Cost)
+.decl ConnectedRoute(x: Node, net: Network, nextHop: Node, cost: Cost)
+.decl OspfRoute(x: Node, net: Network, nextHop: Node, cost: Cost)
+.decl minCost(x: Node, net: Network, cost: Cost)
+.decl BestRoute(x: Node, net: Network, nextHop: Node, cost: Cost)
+
+.input Neighbor
+.input ConnectedRoute
+
+OspfRoute(node,network,nextHop,cost) :-
+  Neighbor(node, nextHop, cost1),
+  ConnectedRoute(nextHop, network, _, cost2),
+  cost = cost1 + cost2.
+
+minCost(node, network, mc) :- OspfRoute(node, network, _, _), 
+  mc = min c: OspfRoute(node, network, _, c).
+BestRoute(node,network,nextHop,mc) :- OspfRoute(node,network,nextHop,mc),
+  minCost(node, network, mc).
+
+.output BestRoute
