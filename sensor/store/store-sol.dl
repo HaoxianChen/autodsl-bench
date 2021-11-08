@@ -1,0 +1,13 @@
+.type Object <: symbol
+.type Node <: symbol
+
+.decl produce(x: Node, obj: Object)
+.decl consume(x: Node, y: Node)
+.decl store(x: Node, obj: Object)
+
+.input produce
+.input consume
+
+store(y,obj) :- produce(x, obj), consume(x,y).
+
+.output store

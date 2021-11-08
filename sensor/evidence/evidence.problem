@@ -1,0 +1,9 @@
+.domain sensor
+
+.type Time <: number
+.type Press <: number
+.type Temp <: number
+
+.decl *tempLog(time: Time, t: Temp)
+.decl *pressLog(time: Time, p:Press)
+.decl evidence(t: Temp, p: Press)
