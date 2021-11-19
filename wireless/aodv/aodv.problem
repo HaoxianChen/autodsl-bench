@@ -15,7 +15,6 @@
 .decl *initHops(h0: Distance, instanceId: InstanceId)
 
 .decl *route(d: Node, next: Node, hops: Distance, seqno: Seq, lifetime: Time, instanceId: InstanceId)
-.decl *routeIdx(d: Node, instanceId: InstanceId)
 
 .decl *recvRREQ(from: Node, hopsToSrc: Distance, d: Node, 
                 seqno: Seq, s: Node, instanceId: InstanceId)
@@ -29,4 +28,4 @@
 
 .decl sendRREP(d: Node, hops: Distance, seqno: Seq, lifetime: Time, instanceId: InstanceId)
 
-// .decl newRoute(d: Node, next:Node, hops: Distance, seqno: Seq, lifetime: Time, instanceId: InstanceId)
+.decl newRoute(d: Node, next:Node, hops: Distance, seqno: Seq, lifetime: Time, instanceId: InstanceId)
