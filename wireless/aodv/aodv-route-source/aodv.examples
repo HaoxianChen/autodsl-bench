@@ -22,89 +22,101 @@ Examples {
     // 4 This is the destination, send reply
 
     // 5 Update route to source
-
     // 5a there is no route to source at all
+    input {
+        // from,hopsToSrc,target,seq,source
+        recvRREQ(7,2,8,3,1),
+       // d,next,hops,seq,lifetime
+        route(8,3,3,1,5),
+        route(3,5,4,5,4),
+        route(4,5,1,4,5)
+    }
+    output { 
+        sendRREQ(3,8,3,1,1),
+       // dest,next,hops,seq,lifetime
+       newRoute(1,7,2,3,15)
+    }
+
     // 5b the route to source has smaller seq, don't update
+    input {
+       // from,hopsToSrc,target,seq,source
+       recvRREQ(7,2,8,3,1),
+       // d,next,hops,seq,lifetime
+       route(1,5,3,2,3),
+       route(8,3,3,1,5), 
+       route(3,5,3,5,4),
+       route(4,5,1,4,5)
+    }
+    output { 
+       newRoute(1,7,2,3,15)
+    }
 
     // 5b the route to source has higher seq, don't update
+    input {
+       // from,hopsToSrc,target,seq,source
+       recvRREQ(7,2,8,3,1),
+       // d,next,hops,seq,lifetime
+       route(1,5,3,5,3),
+       route(8,3,3,1,5), 
+       route(3,5,4,2,4),
+       route(4,5,1,4,5)
+    }
+    output { 
+        sendRREQ(3,8,3,1,1)
+    }
 
     // 5c the route to source has the same seq, 
     // fewer hops, don't update
+    input {
+       // from,hopsToSrc,target,seq,source
+       recvRREQ(7,9,8,3,1),
+       // d,next,hops,seq,lifetime
+       route(1,5,2,3,3),
+       route(8,3,3,1,5), 
+       route(3,5,2,2,4),
+       route(4,5,1,4,5)
+    }
+    output { 
+        sendRREQ(3,10,3,1,1)
+    }
 
     // 5d the route to source has the same seq, 
     // more hops,  update
+    input {
+       // from,hopsToSrc,target,seq,source
+       recvRREQ(7,2,8,3,1),
+       // d,next,hops,seq,lifetime
+       route(1,5,9,3,3),
+       route(8,3,3,1,5), 
+       route(3,5,3,4,4),
+       route(4,5,1,4,5)
+    }
+    output { 
+        sendRREQ(3,10,3,1,1),
+       // dest,next,hops,seq,lifetime
+       newRoute(1,7,2,3,15)
+    }
+
     /*************** Handeling route replies ***********/
 
     // 6 send it to the originator
 
     // 7a update the route to destination, 
-    // when no route to destination at all
-    input {
-        // from,d,hops,seq,lifetime,s
-        recvRREP(7,8,3,3,15,1),
-        // d,next,hops,seq,lifetime
-        route(1,2,5,1,13)
-    }
-    output {
-        // d,next,hops,seq,lifetime
-        newRoute(8,7,3,3,15)
-    }
+    // when no route at all
 
     // 7b update the route to destination, 
     // when existing route has smaller seq
-    input {
-        // from,d,hops,seq,lifetime,s
-        recvRREP(7,8,3,3,15,1),
-        // d,next,hops,seq,lifetime
-        route(1,2,5,1,13),
-        route(8,2,2,2,13)
-    }
-    output {
-        // d,next,hops,seq,lifetime
-        newRoute(8,7,3,3,15)
-    }
 
     // 7c don't update the route to destination, 
     // when existing route has larger seq
-    input {
-        // from,d,hops,seq,lifetime,s
-        recvRREP(7,8,3,3,15,1),
-        // d,next,hops,seq,lifetime
-        route(1,2,5,1,13),
-        route(8,2,5,5,13)
-    }
-    output {
-        // d,next,hops,seq,lifetime
-    }
 
     // 7d don't update the route to destination, 
     // when existing route has the smae seq, 
     // but fewer hops
-    input {
-        // from,d,hops,seq,lifetime,s
-        recvRREP(7,8,3,3,15,1),
-        // d,next,hops,seq,lifetime
-        route(1,2,5,1,13),
-        route(8,2,2,3,13)
-    }
-    output {
-        // d,next,hops,seq,lifetime
-    }
 
     // 7e update the route to destination, 
     // when existing route has the smae seq, 
     // but more hops
-    input {
-        // from,d,hops,seq,lifetime,s
-        recvRREP(7,8,3,3,15,1),
-        // d,next,hops,seq,lifetime
-        route(1,2,5,1,13),
-        route(8,2,5,3,13)
-    }
-    output {
-        // d,next,hops,seq,lifetime
-        newRoute(8,7,3,3,15)
-    }
 
 
     /*************** Handeling broken link ***********/
