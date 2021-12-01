@@ -63,6 +63,17 @@ Examples {
     /*************** Handeling route replies ***********/
 
     // 6 send it to the originator
+    input {
+        // from,dest,hops,seq,lifetime,source
+        recvRREP(7,8,3,3,13,1),
+        // dest,next,hops,seq,lifetime
+        route(1,4,5,5,14),
+        route(2,6,4,2,14)
+    }
+    output {
+        // to,dest,hops,seq,lifetime,source
+        sendRREP(4,8,4,3,13,1)
+    }
 
     // 7a update the route to destination, 
     // when no route at all

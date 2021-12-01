@@ -9,62 +9,15 @@ Static {
 Examples {
     /*************** Handeling route requests ***********/
     // 1 No matching route to the destination 8
-    input {
-        // from,hopsToSrc,target,seq,source
-        recvRREQ(7,2,8,3,1),
-        // d,next,hops,seq,lifetime
-        route(1,5,3,1,3),
-        route(3,5,2,3,4),
-        route(4,5,1,4,5)
-    }
-    output { 
-        sendRREQ(3,8,3,1,1)
-    }
 
    // 2 Has a route to destiantion 8, but seq smaller than requested. 
-   input {
-       // from,hopsToSrc,target,seq,source
-       recvRREQ(9,2,8,3,1),
-       // d,next,hops,seq,lifetime
-       route(8,3,6,2,5),
-       route(1,5,3,1,3),
-       route(3,5,2,3,4),
-       route(4,5,1,4,5)
-   }
-   output {
-       sendRREQ(3,8,3,1,1)
-   }
 
    // 3a Has a route to destiantion 8, the same seq, 
    // send reply. 
-   input {
-       // from,hopsToSrc,target,seq,source
-       recvRREQ(9,2,8,3,1),
-       // d,next,hops,seq,lifetime
-       route(8,3,3,3,5),
-       route(1,5,3,1,3),
-       route(3,5,2,2,4),
-       route(4,5,1,4,5)
-   }
-   output {
-       // sendRREP(9,8,3,3,5,1)
-   }
 
     /* 3b Has a route to destiantion 8, with bigger seq, 
         send reply. 
     */
-    input {
-        // from,hopsToSrc,target,seq,source
-        recvRREQ(9,2,8,3,1),
-        // d,next,hops,seq,lifetime
-       route(8,3,3,9,5),
-       route(1,5,3,1,3),
-       route(3,5,2,3,4),
-       route(4,5,1,4,5)
-    }
-    output {
-       // sendRREP(9,8,3,9,5,1)
-    }
 
     // 4 This is the destination, send reply
 
@@ -98,10 +51,69 @@ Examples {
     // but more hops
 
 
-    /*************** Handeling broken link ***********/
+    /*************** Maintain sequence number ***********/
 
-    // 8 send route update to all precursors
+    // 8a increment sequence number when a link is broken
+    input {
+        broken(9)
+    }
+    output {
+        newSeq(4)
+    }
+
+    // 8b When receive a request with destination is t,
+    // and seq greater than itself.
+    input {
+        //from,hops,dest,seq,source
+        recvRREQ(7,3,2,5,1)
+    }
+    output {
+        newSeq(5)
+    }
+
+    // 8c do not increment if the request destination is
+    // not itself
+    input {
+        //from,hops,dest,seq,source
+        recvRREQ(7,3,4,5,1)
+    }
+    output {
+    }
+
+    // 8d do not increment if the request destination is
+    // itself, but sequence number is smaller
+    input {
+        //from,hops,dest,seq,source
+        recvRREQ(7,3,2,0,1)
+    }
+    output {
+    }
+
     /*************** Handeling incoming packet *******/
 
     // 9 updaet precursor list when receive a packet
+    input {
+        // from,source,dest
+        recvPacket(3,1,8)
+    }
+    output {
+        newPrecursor(3,1)
+    }
+    
+    /*************** Handeling broken link *******/
+    input {
+        broken(4),
+        // d,next,hops,seq,lifetime
+        route(1,5,3,1,3),
+        route(3,6,2,3,4),
+        route(7,8,1,4,5),
+        route(9,4,1,4,5),
+        precursor(9,11),
+        precursor(9,12),
+        precursor(7,13)
+    }
+    output {
+        sendRREP(11,9,15,5,15),
+        sendRREP(12,9,15,5,15)
+    }
 }
