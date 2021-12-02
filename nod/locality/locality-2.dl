@@ -1,6 +1,3 @@
-/** Check if any pair of local source and local destination 
-    take a route in the spine network.
-  */
 .type Address <: symbol
 .type Router <: symbol
 .type InstanceId <: number
@@ -14,7 +11,7 @@
 .input spine
 .input route
 
-violation(src,dst,i) :- route(r,src,dst,i), spine(r,i), 
-                        local(src,i),local(dst,i).
+violation(src,dst,i) :- route(r,src,dst,i), route(r,src1,dst1,i), spine(r,i), 
+  local(dst,i), local(src1,i).
 
 .output violation
