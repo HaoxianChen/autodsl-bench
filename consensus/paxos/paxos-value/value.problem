@@ -1,0 +1,12 @@
+.domain consensusbarrier
+
+.type Node <: symbol
+.type InstanceId <: number
+.type Ballot <: number
+.type Value <: number
+
+.decl *receive_1b(ballot: Ballot, acceptor: Node, maxBallot: Ballot, value: Value, i: InstanceId)
+.decl *null_ballot(b: Ballot, i: InstanceId)
+.decl *proposeValue(ballot: Ballot, value: Value, i: InstanceId)
+
+.decl chooseValue(ballot: Ballot, value: Value, i: InstanceId)
