@@ -1,4 +1,4 @@
-.domain consensus
+.domain consensusbarrier
 
 .type Node <: symbol
 .type Vote <: symbol
@@ -7,8 +7,9 @@
 .type Time <: number
 
 .decl *Peers(x:Node, y:Node, i: InstanceId)
-.decl *no_vote(x:Node, tid:InstanceId, y:Node)
-.decl *yes_vote(x:Node, tid:InstanceId, y:Node)
+.decl *coordinator(x:Node, i:InstanceId)
+.decl *no_vote(x:Node, y:Node, tid:InstanceId)
+.decl *yes_vote(x:Node, y:Node, tid:InstanceId)
 
 .decl *prepare(x: Node, tid:InstanceId)
 
