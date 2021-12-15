@@ -1,0 +1,35 @@
+.type Host <: symbol
+.type Switch <: number
+.type Port <: number
+.type Buf <: symbol
+.type Type <: number
+.type InstanceId <: number
+
+.decl trusted(h: Host, id: InstanceId)
+.decl packet_in(s: Switch, p: Port, buf: Buf, src: Host, dst: Host, type: Type, id: InstanceId)
+
+.input packet_in
+.input trusted
+
+.decl new_trusted(m: Host, id: InstanceId)
+new_trusted(m2, id) :- packet_in (1,1, _, _, m2, 2048, id),!trusted(m2, id).
+
+.output new_trusted
+
+.decl packet_out(s: Switch, buf: Buf, p: Port, id: InstanceId)
+.decl flow_mod(s: Switch, src: Host, dst: Host, p: Port, id: InstanceId)
+
+packet_out(1, buf, 2, i) :- packet_in(1, 1, buf, _, _, 2054, i).
+packet_out(1, buf, 1, i) :- packet_in(1, 2, buf, _, _, 2054, i).
+
+packet_out(1, buf, 2, i) :- packet_in(1, 1, buf, _, _, 2048, i).
+flow_mod(1, m1, m2, 2, i) :- packet_in(1, 1, _, m1, m2, 2048, i).
+
+packet_out(1, buf, 1, i) :- packet_in(1, 2, buf, m1, _, 2048, i), trusted(m1, i).
+flow_mod(1, m1, m2, 1, i) :- packet_in(1, 2, _, m1, m2, 2048, i), trusted(m1, i).
+
+new_trusted(m2, i) :- packet_in(1, 1, _, _, m2, 2048, i), !trusted(m2, i).
+new_trusted(m1, i) :- packet_in(1, 1, _, m1, _, 2048, i), !trusted(m1, i).
+
+.output flow_mod
+.output packet_out

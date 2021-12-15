@@ -1,0 +1,115 @@
+Static{}
+Examples {
+    // 1. 806 packet from switch 1 port 1
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,1,101,"h1","h2",806)
+    }
+    output {
+        // switch,buf,port
+        packet_out(1,101,2)
+    }
+
+    // 2. 806 packet from switch 1 port 2
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,2,101,"h1","h2",806)
+    }
+    output {
+        // switch,buf,port
+        packet_out(1,101,1)
+    }
+
+    // 3. 806 packet from switch 2 port 1
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(2,1,101,"h1","h2",806)
+    }
+    output {
+    }
+
+    // 4. 806 packet from switch 2 port 2
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(2,2,101,"h1","h2",806)
+    }
+    output {
+    }
+
+    // 5. other packet from switch 1 port 1
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,1,101,"h1","h2",809)
+    }
+    output {
+        // switch,buf,port
+        packet_out(1,101,2)
+    }
+
+    // 6. other packet from switch 1 port 2
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,2,101,"h1","h2",809)
+    }
+    output {
+        // switch,buf,port
+        packet_out(1,101,1)
+    }
+
+    // 7. l3 packet from switch 1 port 1
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,1,101,"h1","h2")
+    }
+    output {
+        flow_mod_l3(1,"h1","h2",2),
+        new_trusted_hosts("h2")
+    }
+
+    // 8. l3 packet from switch 1 port 2, trusted
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,2,101,"h1","h2"),
+        trusted_hosts("h1")
+    }
+    output {
+        // switch,from,to,port
+        flow_mod_l3(1,"h1","h2",2)
+    }
+
+    // 9. l3 packet from switch 2 port 1
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,1,101,"h1","h2")
+    }
+    output {
+    }
+
+    // 10. l3 packet from switch 2 port 2, trusted
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(2,2,101,"h1","h2"),
+        trusted_hosts("h1")
+    }
+    output {
+    }
+
+    // 11. l3 packet from switch 1 port 2, untrusted
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,2,101,"h1","h2"),
+        trusted_hosts("h3")
+    }
+    output {
+        drop_l3(1,"h1","h2")
+    }
+
+    // 12. l3 packet from switch 2 port 2, untrusted
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,2,101,"h1","h2"),
+        trusted_hosts("h3")
+    }
+    output {
+    }
+}
