@@ -1,4 +1,9 @@
-Static{}
+Static{
+    arppacket(806),
+    switch1(1),
+    port1(1),
+    port2(2)
+}
 Examples {
     // 1. 806 packet from switch 1 port 1
     input {

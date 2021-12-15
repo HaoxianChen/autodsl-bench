@@ -1,4 +1,7 @@
-Static{}
+Static{
+    port1(1),
+    port2(2)
+}
 Examples {
     // 1. a packet from port 1
     input {

@@ -5,6 +5,8 @@
 .type Port <: number
 .type InstanceId <: number
 
+.decl *port1(p: Port, id: InstanceId)
+.decl *port2(p: Port, id: InstanceId)
 .decl *trusted(s: Switch, h: Host, id: InstanceId)
 .decl *packet(s: Switch, p: Port, src: Host, dst: Host, id: InstanceId)
 

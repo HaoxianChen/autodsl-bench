@@ -3,11 +3,13 @@
 .type Port <: number
 .type InstanceId <: number
 
+.decl port1(p:Port,i: InstanceId)
+.decl port2(p:Port,i: InstanceId)
 .decl trusted(s: Switch, h: Host, id: InstanceId)
 .decl packet(s: Switch, p: Port, src: Host, dst: Host, id: InstanceId)
 
 .input packet
-.input trusted
+.input trusted,port1,port2
 
 .decl new_trusted(s: Switch, h: Host, id: InstanceId)
 new_trusted(s1, h2, id) :- packet(s1, 1, _, h2, id).
@@ -17,11 +19,13 @@ new_trusted(s1, h2, id) :- packet(s1, 1, _, h2, id).
 .decl forward(s: Switch, src: Host, dst: Host, p: Port, id: InstanceId)
 .decl flowMod(s: Switch, src: Host, dst: Host, p: Port, id: InstanceId)
 
-forward(s1, h1, h2, 2, id) :- packet(s1, 1, h1, h2, id).
-flowMod(s1, h1, h2, 2, id) :- packet(s1, 1, h1, h2, id).
+forward(s1, h1, h2, p2, id) :- packet(s1, p1, h1, h2, id),port1(p1,id),port2(p2,id).
+flowMod(s1, h1, h2, p2, id) :- packet(s1, p1, h1, h2, id),port1(p1,id),port2(p2,id).
 
-forward(s1, h1, h2, 1, id) :- packet(s1, 2, h1, h2, id), trusted(s1, h1, id).
-flowMod(s1, h1, h2, 1, id) :- packet(s1, 2, h1, h2, id), trusted(s1, h1, id).
+forward(s1, h1, h2, p1, id) :- packet(s1, p2, h1, h2, id), trusted(s1, h1, id),
+                                port1(p1,id),port2(p2,id).
+flowMod(s1, h1, h2, p1, id) :- packet(s1, p2, h1, h2, id), trusted(s1, h1, id),
+                                port1(p1,id),port2(p2,id).
 
 .output flowMod
 .output forward
