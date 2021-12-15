@@ -1,9 +1,15 @@
+.type Node <: symbol
+.type Interface <: number
+.type Cost <: number
+.type IP <: number
+.type Network <: symbol
 
 .decl BestProtocolRoute()
+.decl Route(x: Node, net: Network, nextHop: Node, admin: Node, cost: Cost)
 
 MinAdmin(node, network, minAdmin) :- 
   BestProtocolRoute(node, network,_,_,_,_,_),
-  minAdmin = min admin : BestProtocolRoute(node, network,_,_,admin,_,_).
+  minAdmin = min admin : BestProtocolRoute(node, network,_,_,admin,_).
 
 MinAdminRoute(node, network, nextHop, nextHopIp, minAdmin, cost, protocol):-
   minAdmin(node, network, minAdmin),

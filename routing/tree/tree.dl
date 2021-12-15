@@ -1,0 +1,20 @@
+.type Node <: symbol
+.type NodeList  <: symbol
+.type Cost <: number
+
+.decl Link(x: Node, y: Node, cost: Cost)
+.input Link
+
+.decl Path(x: Node, y: Node, path: NodeList, nextHop: Node, cost: Cost)
+Path(x,y,p,y,c) :- Link(x,y,c), p=cat(x,y).
+Path(x,y,p,z,c) :- Link(x,z,c1), Path(z,y,p1,_,c2) , p=cat(x,p1), c=c1+c2.
+
+// .output Path
+
+.decl minCost(x: Node, y: Node, cost: Cost)
+minCost(x,y,mc) :- Path(x,y,_,_,_),  mc = min c : Path(x,y,_,_,c).
+
+.decl nextHop(x: Node, y:Node, path: NodeList, nh: Node, cost: Cost)
+nextHop(x,y,p,z,mc) :- Path(x,y,p,z,mc), minCost(x,y,mc).
+
+.output nextHop

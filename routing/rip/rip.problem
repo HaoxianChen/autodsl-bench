@@ -9,6 +9,5 @@
 .decl *link(x: Node, y: Node, cost: Cost, i: InstanceId)
 .decl *this(x: Node, i: InstanceId)
 .decl *route(x: Node, dst: Node, next: Node, cost: Cost, i: InstanceId)
-.decl *costBound(cost: Cost, i: InstanceId)
 
 .decl new_route(x: Node, dst: Node, next: Node, cost: Cost, i: InstanceId)

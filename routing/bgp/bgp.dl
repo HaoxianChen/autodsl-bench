@@ -1,0 +1,27 @@
+.type Node <: symbol
+.type Interface <: number
+.type Cost <: number
+.type Network <: symbol
+.type NodeList <: symbol
+
+.decl Neighbor(x: Node, y: Node, cost: Cost)
+.decl ConnectedRoute(x: Node, net: Network, path: NodeList, cost: Cost)
+.decl Route(x: Node, net: Network, path: NodeList, cost: Cost)
+.decl minCost(x: Node, net: Network, cost: Cost)
+.decl BestRoute(x: Node, net: Network, path: NodeList, cost: Cost)
+
+.input Neighbor
+.input ConnectedRoute
+
+Route(node,network,path,cost) :-
+  Neighbor(node, nextHop, cost1),
+  ConnectedRoute(nextHop, network, path2, cost2),
+  cost = cost1 + cost2,
+  path = cat(node, path2).
+
+minCost(node, network, mc) :- Route(node, network, _, _), 
+  mc = min c: Route(node, network, _, c).
+BestRoute(node,network,nextHop,mc) :- Route(node,network,nextHop,mc),
+  minCost(node, network, mc).
+
+.output BestRoute

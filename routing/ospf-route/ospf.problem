@@ -1,0 +1,12 @@
+.domain routing
+
+.type Node <: symbol
+.type Interface <: number
+.type Cost <: number
+.type IP <: number
+.type Network <: symbol
+
+.decl *Neighbor(x: Node, y: Node, cost: Cost)
+.decl *ConnectedRoute(x: Node, net: Network, nextHop: Node, cost: Cost)
+.decl OspfRoute(x: Node, net: Network, nextHop: Node, cost: Cost)
+

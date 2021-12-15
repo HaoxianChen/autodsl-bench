@@ -1,0 +1,25 @@
+.type Node <: symbol
+.type Cost <: number
+.type Network <: symbol
+.type Protocol <: symbol
+
+.decl AdminCost(proto: Protocol, admin: Cost)
+.decl ProtocolRoute(x: Node, net: Network, nextHop: Node, protocol: Protocol)
+.decl Route(x: Node, net: Network, nextHop: Node, admin: Cost)
+.decl MinAdmin(x: Node, net: Network, admin: Cost)
+.decl MinAdminRoute(x: Node, net: Network, nextHop: Node, admin: Cost)
+
+Route(node, network,nextHop,admin) :- AdminCost(proto, admin), 
+  ProtocolRoute(node, network, nextHop, proto).
+
+MinAdmin(node, network, minAdmin) :- 
+  Route(node, network,_,_),
+  minAdmin = min admin : Route(node, network,_,admin).
+
+MinAdminRoute(node, network, nextHop, minAdmin):-
+  MinAdmin(node, network, minAdmin),
+  Route(node, network, nextHop, minAdmin).
+
+.input ProtocolRoute
+.input AdminCost
+.output MinAdminRoute
