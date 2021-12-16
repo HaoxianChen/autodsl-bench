@@ -1,0 +1,10 @@
+Static {
+    this(1)
+}
+Examples {
+    // 1. not the request target
+    input {
+        // 
+        recvRREQ
+    }
+}
