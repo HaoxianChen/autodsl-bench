@@ -1,0 +1,14 @@
+.type Node <: symbol
+
+.type NodeList  <: symbol
+
+.decl Link(x: Node, y: Node)
+Link("a","b").
+Link("b","c").
+Link("a","c").
+
+.decl Path(x: Node, y: Node, path: NodeList)
+Path(x,y,p) :- Link(x,y), p=cat(x,y).
+Path(x,y,p) :- Link(x,z), Path(z,y,p1) , p=cat(x,p1).
+
+.output Path
