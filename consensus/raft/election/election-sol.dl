@@ -1,0 +1,57 @@
+/* The leader election rules for Raft consensus protocol.
+    Adopted from Diego Ongaro and John Ousterhout, 
+    "In Search of an Understandable Consensus Algorithm (Extended Version)"
+*/
+
+.type Term <: number
+.type Id <: number
+.type Index <: number
+.type Role <: symbol
+.type Count <: number
+
+.decl term(t: Term)
+.decl this(id: Id)
+.decl peer(pid: Id)
+.decl role(r: Role)
+
+.decl lastLogIndex(index: Index)
+.decl lastLogTerm(term: Term)
+.decl votedFor(peer: Id)
+
+.decl recvVoteRequest(term: Term, candidateId: Id, lastLogIndex: Index, lastLogTerm: Term)
+
+.decl timeOut()
+.decl resetTimer()
+
+.input term, this, peer, role, lastLogIndex, lastLogTerm, votedFor, recvNewTerm, recvVoteRequest
+
+.decl newRole(r: Role)
+.decl newTerm(t: Term)
+.decl sendVoteRequest(term: Term, candidateId: Id, lastLogIndex: Index, lastLogTerm: Term)
+.decl sendVote(peer: Id)
+.decl sendNewTerm(peer: Id, term: Term)
+.decl resetTimer()
+
+.input newRole, newTerm, sendVoteRequest, sendVote, sendNewTerm, resetTimer
+
+// The high-level role transition logic
+newRole("Follower") :- recvNewTerm(_).
+newRole("Candidate") :- timeOut().
+
+// Reset timer when receive LogAppend RPC
+resetTimer() :- recvAppend(_,_,_,_).
+
+// Start election: send vote requests
+sendRequestVote(t, i, li, lt) :- timeOut(), term(t), this(i), 
+                                lastLogIndex(li),lastLogTerm(lt).
+
+// On hearing from other vote requests
+sendVote(cid) :- recvVoteRequest(t,cid,li,lt), 
+                term(t1), t1 <= t, 
+                !votedFor(_), role("Follower"),
+                (
+                // determine if the candidate has the latest log
+                lastLogTerm(lt2), lt2 < lt;
+                lastLogTerm(lt),lastLogIndex(li2), li2 <= li
+                ).
+sendNewTerm(cid, t1) :- recvVoteRequest(t,cid,_,_), term(t1), t1 > t.

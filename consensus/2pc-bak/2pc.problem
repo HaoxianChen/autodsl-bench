@@ -1,0 +1,18 @@
+.domain consensus
+
+.type Node <: symbol
+.type Vote <: symbol
+.type State <: symbol
+.type InstanceId <: number
+
+.decl *Peers(x:Node, y:Node)
+.decl *vote(x:Node, tid:InstanceId, y:Node, v: Vote)
+.decl *transaction(x: Node, tid:InstanceId, s:State)
+
+.decl *tick(x: Node, tid: InstanceId, c: number)
+
+.decl new_transaction(x: Node, tid:InstanceId, s:State)
+
+// manage timer
+.decl *ticker()
+.decl new_tick(x: Node, tid: InstanceId, c: number)

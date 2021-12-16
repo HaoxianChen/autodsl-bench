@@ -1,0 +1,41 @@
+/* The leader election rules for Raft consensus protocol.
+    Adopted from Diego Ongaro and John Ousterhout, 
+    "In Search of an Understandable Consensus Algorithm (Extended Version)"
+
+    The vote counting process to determine the leader
+*/
+
+.type Term <: number
+.type Id <: number
+.type Index <: number
+.type Role <: symbol
+.type Count <: number
+
+.decl term(t: Term)
+.decl this(id: Id)
+.decl role(r: Role)
+.decl peer(pid: Id)
+
+.decl recvVote(peer: Id)
+.decl recvNewTerm(term: Term)
+
+.input term, this, peer, role, recvVote, recvNewTerm
+
+.decl newRole(r: Role)
+.decl newTerm(t: Term)
+
+.decl peerCount(c: Count)
+.decl voteCount(v: Count)
+
+.output newRole, newTerm
+
+// The high-level role transition logic
+newRole("Leader") :- peerCount(pc), voteCount(vc), vc > pc / 2, 
+                    !recvNewTerm(_), role("Candidate").
+
+// Update terms
+newTerm(t) :- recvNewTerm(t), term(t0), t > t0.
+
+// Vote counting
+peerCount(pc) :- pc = count: peer(_).
+voteCount(vc) :- vc = count: recvVote(_,_).

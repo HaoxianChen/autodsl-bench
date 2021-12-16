@@ -1,0 +1,12 @@
+.domain consensus
+
+.type Node <: symbol
+.type Vote <: symbol
+.type State <: symbol
+.type View <: number
+.type InstanceId <: number
+
+.decl *parliament(x: Node, y:Node, i:InstanceId)
+.decl *promise(x: Node, v: View, y:Node, i:InstanceId)
+
+.decl quorum(x: Node, v:View, i:InstanceId)

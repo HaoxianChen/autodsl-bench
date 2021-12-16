@@ -1,0 +1,29 @@
+/* The append entry rules for Raft consensus protocol.
+    Adopted from Diego Ongaro and John Ousterhout, 
+    "In Search of an Understandable Consensus Algorithm (Extended Version)"
+*/
+
+.type Term <: number
+.type Id <: number
+.type Index <: number
+.type Role <: symbol
+.type Count <: number
+.type Entry <: symbol
+
+.decl term(t: Term)
+.decl lastLogIndex(i: Index)
+.decl lastLogTerm(t: Term)
+.decl recvAppend(term: Term, leaderId: Id, prevLogIndex: Index, 
+                prevLogTerm: Term, entryTerm: Term, commitIndex: Index)
+.decl log(i: Index, term: Term)
+
+newEntry(pli, entryTerm) :- recvAppend(t,lid,pli,plt,entryTerm,ci),
+                    term(t1), t1 <= t, // term greater than current term
+                    log(pli, plt). // match the log entry's term
+
+
+
+
+
+                    
+                    
