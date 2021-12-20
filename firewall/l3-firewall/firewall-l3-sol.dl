@@ -21,11 +21,19 @@
 .decl flow_mod_l3(s: Switch, src: IP, dst: IP, p: Port, id: InstanceId)
 .decl drop_l3(s: Switch, src: IP, dst: IP, id: InstanceId)
 
-packet_out (s1, buf, p2, id) :- packet_in(s1, p1, buf, _, _, t, id),switch1(s1,id),port1(p1,id),port2(p2,id),arppacket(t,id).
-packet_out (s1, buf, p1, id) :- packet_in(s1, p2, buf, _, _, t, id),switch1(s1,id),port1(p1,id),port2(p2,id),arppacket(t,id).
+packet_out (s1, buf, p2, id) :- packet_in(s1, p1, buf, h1, h2, t, id),switch1(s1,id),
+                                h1!=h2,
+                                port1(p1,id),port2(p2,id),arppacket(t,id).
+packet_out (s1, buf, p1, id) :- packet_in(s1, p2, buf, h1, h2, t, id),switch1(s1,id),
+                                h1!=h2,
+                                port1(p1,id),port2(p2,id),arppacket(t,id).
 
-flow_mod_l3(s1, ip1, ip2, p2, id) :- packet_in_l3 (s1,p1, _, ip1, ip2, id),switch1(s1,id),port1(p1,id),port2(p2,id).
-flow_mod_l3(s1, ip2, ip1, p1, id) :- packet_in_l3 (s1,p1, _, ip1, ip2, id),switch1(s1,id),port1(p1,id).
+flow_mod_l3(s1, ip1, ip2, p2, id) :- packet_in_l3 (s1,p1, _, ip1, ip2, id),
+                                ip1!=ip2,
+                                switch1(s1,id),port1(p1,id),port2(p2,id).
+flow_mod_l3(s1, ip2, ip1, p1, id) :- packet_in_l3 (s1,p1, _, ip1, ip2, id),
+                                ip1!=ip2,
+                                switch1(s1,id),port1(p1,id).
 
 drop_l3(s1,ip1,ip2,id) :- packet_in_l3(s1,p2,_,ip1,ip2, id),switch1(s1,id),port2(p2,id).
 

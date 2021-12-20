@@ -38,10 +38,18 @@ Examples {
     output {
     }
 
-    // 5. other packets
+    // 5. other packets at switch 1 port 1
     input {
         // switch,port,buf,from,to,type
         packet_in(1,1,101,"h1","h2",807)
+    }
+    output {
+    }
+
+    // 5b. other packets at switch 1 port 2
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,2,101,"h1","h2",807)
     }
     output {
     }
@@ -75,11 +83,47 @@ Examples {
     output {
     }
 
-    // 7. l3 packet at switch 2 port 2
+    // 8. l3 packet at switch 2 port 2
     input {
         // switch,port,buf,from,to
         packet_in_l3(2,2,101,"ip1","ip2")
     }
     output {
     }
+
+    // 9. Ignore packets with same src and dst.
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,1,101,"ip1","ip1")
+    }
+    output {
+    }
+
+    // 9b. Ignore packets with same src and dst,
+    // at switch 1 port 2
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,2,101,"ip1","ip1")
+    }
+    output {
+    }
+
+    // 9c. Ignore packets with the same src and dst
+    // 806 packets at switch 1 port 1
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,1,101,"h1","h1",806)
+    }
+    output {
+    }
+
+    // 9d. Ignore packets with the same src and dst
+    // 806 packets at switch 1 port 2
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,2,101,"h1","h1",806)
+    }
+    output {
+    }
+
 }
