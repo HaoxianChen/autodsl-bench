@@ -3,28 +3,14 @@
 .type Value <: number
 .type InstanceId <: number
 
-.decl ballot(b: Ballot, i: InstanceId)
-.decl send_1a(ballot: Ballot, i: InstanceId)
-
-// phase 1a
-.input ballot
-send_1a(b,i) :- ballot(b,i).
-.output send_1a
-
 // phase 2a
 .decl send_2a(ballot: Ballot, value: Value, i: InstanceId)
-.decl chooseValue(ballot: Ballot, value: Value, i: InstanceId)
+.decl maxPreBallot(ballot: Ballot, acceptor:Node, mb: Ballot, value: Value, i: InstanceId)
+.decl propose(ballot: Ballot, value: Value, i: InstanceId)
+.decl null_ballot(ballot: Ballot, i: InstanceId)
 .decl hasQuorum(ballot: Ballot, i: InstanceId)
 
-.input chooseValue
-.input hasQuorum
-send_2a(b,v,i) :- chooseValue(b,v,i), hasQuorum(b,i).
+.input hasQuorum,propose,null_ballot,maxPreBallot
+send_2a(b,v,i) :- maxPreBallot(b,_,mb,v,i), hasQuorum(b,i), !null_ballot(mb,i).
+send_2a(b,v,i) :- maxPreBallot(b,_,mb,_,i), hasQuorum(b,i), null_ballot(mb,i), propose(b,v,i).
 .output send_2a
-
-// decide
-.decl decide(ballot: Ballot, value: Value, i: InstanceId)
-.decl hasQuorum2b(ballot: Ballot, i: InstanceId)
-
-.input hasQuorum2b
-decide(b,v,i) :- hasQuorum2b(b,i), chooseValue(b,v,i).
-.output decide

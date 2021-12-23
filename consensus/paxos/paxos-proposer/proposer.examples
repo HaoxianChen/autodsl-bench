@@ -1,45 +1,41 @@
 Static {
+    null_ballot(0),
+    propose(5,1)
 }
 
 Examples {
-    // 1. phase 1 a
+    // 1. has quorum, and valid max ballot
     input {
-        ballot(1)
+        // ballot,acceptor,maxPreBallot,value
+        maxPreBallot(5,1,4,5),
+        hasQuorum(5)
     }
     output {
-       send_1a(1) 
+        send_2a(5,5)
     }
 
-    // 2. phase 2a: has quorum
+    // 2. has no quorum
     input {
-        chooseValue(1,1),
-        hasQuorum(1)
-    }
-    output {
-        send_2a(1,1)
-    }
-
-    // 3. phase 2a: has no quorum
-    input {
-        chooseValue(1,1),
-        hasQuorum(2)
+        // ballot,acceptor,maxPreBallot,value
+        maxPreBallot(5,1,4,5)
     }
     output {
     }
 
-    // 4. phase 2a decide a value
+    // 3. has null max ballot
     input {
-        chooseValue(1,1),
-        hasQuorum2b(1)
+        // ballot,acceptor,maxPreBallot,value
+        maxPreBallot(5,1,0,5),
+        hasQuorum(5)
     }
     output {
-        decide(1,1)
+        send_2a(5,1)
     }
 
-    // 5. phase 2a: no quorum yet
+    // 4. has null max ballot, no quorum
     input {
-        chooseValue(1,1),
-        hasQuorum2b(2)
+        // ballot,acceptor,maxPreBallot,value
+        maxPreBallot(5,1,0,5)
     }
     output {
     }
