@@ -5,8 +5,9 @@
 .type Cost <: number
 .type Network <: symbol
 .type NodeList <: symbol
+.type InstanceId <: number
 
-.decl *Neighbor(x: Node, y: Node, cost: Cost)
-.decl *ConnectedRoute(x: Node, net: Network, path: NodeList, cost: Cost)
-.decl BestRoute(x: Node, net: Network, path: NodeList, cost: Cost)
+.decl *Neighbor(x: Node, y: Node, cost: Cost, i:InstanceId)
+.decl *ConnectedRoute(x: Node, net: Network, path: NodeList, cost: Cost, i:InstanceId)
+.decl BestRoute(x: Node, net: Network, path: NodeList, cost: Cost, i:InstanceId)
 
