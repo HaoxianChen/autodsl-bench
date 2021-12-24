@@ -57,8 +57,11 @@
 .decl broken(s: Node, instanceId: InstanceId)
 
 .input this,seqno,defaultTimeOut,infinity,initHops,
-    precursor,route,
-    recvRREQ,recvRREP,broken,recvPacket
+    //precursor,
+    route,
+    recvRREQ
+    // recvRREP
+    // ,broken,recvPacket
 
 // Output relations
 
@@ -79,7 +82,7 @@
 
 .output sendRREQ
 .output sendRREP
-.output newRoute,newPrecursor,newSeq
+.output newRoute,newPrecursor
 
 // Rules
 
@@ -148,11 +151,11 @@ newSeq(s+1,i) :-
     seqno(s,i).
     
 /** Update sequence number when route request to itself. */
-newSeq(seq,i) :-
-    recvRREQ(_,_, d, seq, _, i),
+newSeq(s2,i) :-
+    recvRREQ(_,_, d, seqno, _, i),
     this(d,i),
     seqno(s1,i),
-    seq>s1.
+    s2 = max(s1,seqno).
 
 /** Update precursor on hearing route request. */
 newPrecursor(from,d,i) :-

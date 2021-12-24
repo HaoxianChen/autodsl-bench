@@ -19,15 +19,15 @@
 .decl *recvRREQ(from: Node, hopsToSrc: Distance, d: Node, 
                 seqno: Seq, s: Node, instanceId: InstanceId)
 
-.decl *precursor(d: Node, t: Node, instanceId: InstanceId)
-.decl *recvPacket(from:Node, s:Node, d:Node, i: InstanceId)
+// .decl *precursor(d: Node, t: Node, instanceId: InstanceId)
+// .decl *recvPacket(from:Node, s:Node, d:Node, i: InstanceId)
 
-.decl *recvRREP(from: Node, d: Node, hops: Distance, 
-            seqno: Seq, lifetime: Time, 
-            s: Node,
-            instanceId: InstanceId)
-
-.decl *broken(s: Node, instanceId: InstanceId)
+// .decl *recvRREP(from: Node, d: Node, hops: Distance, 
+//             seqno: Seq, lifetime: Time, 
+//             s: Node,
+//             instanceId: InstanceId)
+// 
+// .decl *broken(s: Node, instanceId: InstanceId)
 
 // .decl sendRREQ(hopsToSrc: Distance, d: Node, 
 //                seqno: Seq, s: Node, instanceId: InstanceId)

@@ -7,22 +7,10 @@ Static {
 }
 
 Examples {
-    /*************** Handeling route requests ***********/
-    // 1 No matching route to the destination 8
-
-   // 2 Has a route to destiantion 8, but seq smaller than requested. 
-
-   // 3a Has a route to destiantion 8, the same seq, 
-   // send reply. 
-
-    /* 3b Has a route to destiantion 8, with bigger seq, 
-        send reply. 
-    */
-
-    // 4 This is the destination, send reply
-
     // 5 Update route to source
     // 5a there is no route to source at all
+    // does the route match with target?
+    // does the seq match or less or greater than the reply seq?
     input {
         // from,hopsToSrc,target,seq,source
         recvRREQ(7,2,8,3,1),
@@ -142,34 +130,4 @@ Examples {
     output { 
         sendRREQ(3,10,3,1,1)
     }
-
-    /*************** Handeling route replies ***********/
-
-    // 6 send it to the originator
-
-    // 7a update the route to destination, 
-    // when no route at all
-
-    // 7b update the route to destination, 
-    // when existing route has smaller seq
-
-    // 7c don't update the route to destination, 
-    // when existing route has larger seq
-
-    // 7d don't update the route to destination, 
-    // when existing route has the smae seq, 
-    // but fewer hops
-
-    // 7e update the route to destination, 
-    // when existing route has the smae seq, 
-    // but more hops
-
-
-    /*************** Handeling broken link ***********/
-
-    // 8 send route update to all precursors
-
-    /*************** Handeling incoming packet *******/
-
-    // 9 updaet precursor list when receive a packet
 }
