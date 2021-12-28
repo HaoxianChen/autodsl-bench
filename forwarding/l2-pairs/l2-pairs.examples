@@ -37,4 +37,43 @@ Examples {
         // switch,buf
         flood(1,101)
     }
+
+    // 4. learn a new mapping, when irrelevant entry exists
+    input{
+        // switch,port,buf,from,to,type
+        packet_in(1,1,101,11,12,806),
+        // switch,dest,port
+        table(2,11,2)
+    }
+    output{
+        // switch,dest,port
+        new_table(1,11,1),
+        // switch,buf
+        flood(1,101)
+    }
+
+    // 4b. learn a new mapping, when irrelevant entry exists
+    input{
+        // switch,port,buf,from,to,type
+        packet_in(1,1,101,11,12,806),
+        // switch,dest,port
+        table(2,11,1)
+    }
+    output{
+        // switch,dest,port
+        new_table(1,11,1),
+        // switch,buf
+        flood(1,101)
+    }
+
+    // 5. Don't learn a new mapping, when table entry exists
+    input{
+        // switch,port,buf,from,to,type
+        packet_in(1,1,101,11,12,806),
+        table(1,11,1)
+    }
+    output{
+        // switch,buf
+        flood(1,101)
+    }
 }
