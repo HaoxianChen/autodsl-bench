@@ -21,7 +21,7 @@
 distanceVector(node,dst,next,cost,i) :-
   this(node,i),
   link(node, next, cost1,i),
-  route(next, dst, nn, cost2,i),
+  route(next, dst, _, cost2,i),
   cost = cost1 + cost2.
 //  costBound(bound,i),
 //  cost < bound,
