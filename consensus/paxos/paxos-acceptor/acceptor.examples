@@ -8,6 +8,7 @@ Examples {
     input {
         receive_1a(1)
     }
+    output{}
 
     // 2. phase 1b: ballot is the same as the max ballot
     input {
@@ -23,7 +24,7 @@ Examples {
     }
     output {
         // ballot, acceptor, max ballot, value
-        send_1b(6,1,5,1)
+        send_1b(6,1,5,1),
         // acceptor, mBallot, aBallot, value
         new_aState(1,6,3,1)
     }
