@@ -23,6 +23,15 @@ Examples {
         packet_out(1,101,1)
     }
 
+    // 2b. An 806 packet from port 3
+    input {
+        // switch,port,buf,from,to,type
+        packet_in(1,3,101,"h1","h2",806)
+    }
+    output {
+        packet_out(1,101,1)
+    }
+
     // 3. An 806 packet from port 1, at switch 2
     input {
         // switch,port,buf,from,to,type
@@ -69,6 +78,16 @@ Examples {
     input {
         // switch,port,buf,from,to
         packet_in_l3(1,2,101,"ip1","ip2")
+    }
+    output {
+        // switch,from,to,port
+        drop_l3(1,"ip1","ip2")
+    }
+
+    // 7. l3 packet at switch 1 port 3
+    input {
+        // switch,port,buf,from,to
+        packet_in_l3(1,3,101,"ip1","ip2")
     }
     output {
         // switch,from,to,port

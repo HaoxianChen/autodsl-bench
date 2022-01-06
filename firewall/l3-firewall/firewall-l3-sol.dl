@@ -35,7 +35,7 @@ flow_mod_l3(s1, ip2, ip1, p1, id) :- packet_in_l3 (s1,p1, _, ip1, ip2, id),
                                 ip1!=ip2,
                                 switch1(s1,id),port1(p1,id).
 
-drop_l3(s1,ip1,ip2,id) :- packet_in_l3(s1,p2,_,ip1,ip2, id),switch1(s1,id),port2(p2,id).
+drop_l3(s1,ip1,ip2,id) :- packet_in_l3(s1,p1,_,ip1,ip2, id),switch1(s1,id),!port1(p1,id).
 
 .output flow_mod_l3
 .output packet_out
