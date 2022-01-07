@@ -22,4 +22,12 @@ Examples {
     }
     output{
     }
+
+    // 3. a packet from port 3, do nothing
+    input{
+        // switch,port,from,to
+        packet("s1",3,"h1","h2")
+    }
+    output{
+    }
 }
