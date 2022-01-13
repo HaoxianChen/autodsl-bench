@@ -1,6 +1,6 @@
-"a"	"b"	"a""b"	2	0
-"a"	"c"	"a""b""c"	5	0
-"a"	"d"	"a""b""c""d"	9	0
-"b"	"c"	"b""c"	3	0
-"b"	"d"	"b""c""d"	7	0
-"c"	"d"	"c""d"	4	0
+a	b	ab	2	0
+a	c	abc	5	0
+a	d	ad	4	0
+b	c	bc	3	0
+b	d	bcd	9	0
+c	d	cd	6	0
